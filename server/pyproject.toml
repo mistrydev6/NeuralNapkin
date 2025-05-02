@@ -1,0 +1,20 @@
+[project]
+name = "server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "gradio>=5.27.0",
+    "onnxruntime-gpu>=1.21.1",
+    "opencv-python>=4.11.0.86",
+    "pyglet<2",
+    "redis>=5.2.1",
+    "rembg[gpu]>=2.0.65",
+    "replicate>=1.0.6",
+    "rq>=2.3.2",
+    "shortuuid>=1.0.13",
+    "trimesh>=4.6.8",
+    "vedo>=2025.5.3",
+]
