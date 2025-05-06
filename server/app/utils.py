@@ -12,6 +12,7 @@ from rembg import remove
 import shortuuid
 
 replicate.default_client._api_token = ""  # type: ignore
+crm_deployment = replicate.deployments.get("jaybe1234/crm-neural-napkin")
 
 CONTROLNET_NAME = "controlnet"
 BGREM_NAME = "bgrem"
@@ -95,6 +96,7 @@ class ReplicatePrediction(Prediction):
     def __init__(self, id: str, name: str, output_extension: str) -> None:
         super().__init__(id, name)
         self.output_extension = output_extension
+        self.deployment = replicate
 
     def fetch_log(self):
         log = replicate.predictions.get(self.id)
@@ -151,6 +153,7 @@ class ControlNetPrediction(ReplicatePrediction):
 class CRMPrediction(ReplicatePrediction):
     def __init__(self, id: str) -> None:
         super().__init__(id, CRM_NAME, "obj")
+        self.deployment = crm_deployment
 
     @classmethod
     def populate_from_b64(cls, b64: str, prompt: str = ""):
@@ -158,8 +161,7 @@ class CRMPrediction(ReplicatePrediction):
         input = {
             "image_path": f"data:application/octet-stream;base64,{b64}",
         }
-        log = replicate.predictions.create(
-            version="9a17c48c7e8a6c1b75788b454a234c13833277afafda546e014e59c3837f8932",
+        log = crm_deployment.predictions.create(
             input=input,
         )
         ins = cls(log.id)
